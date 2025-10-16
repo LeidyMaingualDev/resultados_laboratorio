@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login</title>
+  <link rel="stylesheet" href="../static/css/styles.css" />
+</head>
+<body>
+  <div class="login-container">
+    <div class="login-card">
+      <h2 class="login-title">Inicio de Sesión</h2>
+
+      <form id="loginForm">
+        <div class="form-group">
+          <input type="email" id="email" placeholder="Correo electrónico" required />
+        </div>
+        <div class="form-group">
+          <input type="password" id="password" placeholder="Contraseña" required />
+        </div>
+
+        <button type="submit" class="btn-login">Ingresar</button>
+      </form>
+
+      <p class="register-text">
+        ¿No tienes cuenta? <a href="register.html">Regístrate</a>
+      </p>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById("loginForm");
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault(); // Evita recargar la página
+
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+
+      try {
+        const response = await fetch("http://localhost:8080/auth/login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ email, password })
+        });
+
+        if (!response.ok) {
+          throw new Error("Credenciales incorrectas");
+        }
+
+        const data = await response.json();
+
+        // Guardar los datos en localStorage
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("email", data.email);
+        localStorage.setItem("nombreCompleto", data.nombreCompleto);
+        localStorage.setItem("especialidad", data.especialidad);
+        localStorage.setItem("role", data.role);
+
+        alert("Bienvenid@ " + data.nombreCompleto);
+
+        // Redirigir según el rol
+        if (data.role === "DOCTOR") {
+          window.location.href = "dashboardDoctor.html";
+        } else if (data.role === "LABORATORISTA") {
+          window.location.href = "dashboardLab.html";
+        } else {
+          window.location.href = "profile.html";
+        }
+
+      } catch (error) {
+        alert("Error: " + error.message);
+      }
+    });
+  </script>
+</body>
+</html>
