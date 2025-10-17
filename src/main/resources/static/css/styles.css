@@ -94,7 +94,7 @@ body {
     text-decoration: underline;
 }
 
-/* ---- select ---- */
+/*select*/
 .form-group select {
     width: 100%;
     padding: 12px;
@@ -106,7 +106,6 @@ body {
     color: #333;
 }
 
-/* Cuando el usuario hace clic o enfoca el select */
 .form-group select:focus {
     border-color: rgb(37, 117, 252);
     box-shadow: 0 0 5px rgba(37, 117, 252, 0.4);
