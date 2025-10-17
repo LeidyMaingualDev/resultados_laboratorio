@@ -35,6 +35,14 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers("/api/opciones/**").permitAll()  // 👈 Permite acceder sin token
+                        .requestMatchers("/api/personas/**").permitAll()
+                        .requestMatchers("/api/eps/**").permitAll()
+                        .requestMatchers("/api/niveles/**").permitAll()
+                        .requestMatchers("/api/tarjeteros/**").permitAll()
+                        .requestMatchers("/api/documentos/**").permitAll()
+                        .requestMatchers("/api/cups/**").permitAll()
+                        .requestMatchers("/api/grupos/**").permitAll()
                         .requestMatchers("/admin/**").hasRole("DOCTOR")
                         .anyRequest().authenticated()
                 )
